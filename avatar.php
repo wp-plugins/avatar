@@ -2,13 +2,10 @@
 /*
 Plugin Name: Avatar
 Plugin URI: http://emusic.com
-Description: Like the movie, but actually good. Allows you to edit a user's 
-    Avatar in the Profile / Edit User page of the admin panel. Filter's get_avatar()
-    to return your uploaded avatar instead of your Gravatar. This plugin borrows
-    a lot of code from BuddyPress
+Description: Like the movie, but actually good. Allows you to edit a user's Avatar in the Profile / Edit User page of the admin panel. Filter's get_avatar() to return your uploaded avatar instead of your Gravatar. This plugin borrows a lot of code from BuddyPress
 Author: wonderboymusic (after all of the BuddyPress contributors)
 Author URI: http://scotty-t.com
-Version: 0.1
+Version: 0.1.1
 */
 require( 'templatetags.php' );
 
@@ -83,6 +80,10 @@ class Avatar {
             $this->notices[] = array( 'updated', __( 'Your avatar was deleted successfully!', 'avatar' ) );
         }
         
+        if ( isset( $_GET['crop-error'] ) ) {
+           	$this->notices[] = array( 'error', __( 'There was a problem cropping your avatar, please try  again', 'avatar' ) );        
+        }
+        
         if ( isset( $_GET['delete-avatar'] ) ) {
             if ( $this->delete_existing_avatar( array( 'item_id' => $_GET['delete-avatar'] ) ) ) {
                 wp_redirect( add_query_arg( 'avatar-deleted', 1, admin_url( $this->get_redirect( $user_id ) ) ) );
@@ -106,6 +107,7 @@ class Avatar {
 
         /* If the image cropping is done, crop the image and save a full/thumb version */
         if ( isset( $_POST['avatar-crop-submit'] ) ) {
+        	//print_r( $_POST ); die();
             /* Check the nonce */
             check_admin_referer( 'avatar_cropstore' );
 
@@ -118,7 +120,8 @@ class Avatar {
                 'crop_h'        => $_POST['h'] 
             );
             if ( !$this->handle_crop( $data ) ) {
-                $this->notices[] = array( 'error', __( 'There was a problem cropping your avatar, please try uploading it again', 'avatar' ) );
+                wp_redirect( add_query_arg( 'step', 'crop-image&crop-error#go-to-avatar', admin_url( $this->get_redirect( $user_id ) ) ) );
+                exit();                
             } else {
                 delete_transient( $this->dir_transient );
                 delete_transient( $this->url_transient );
@@ -156,8 +159,8 @@ class Avatar {
     
     function upload_dir( $directory = false, $user_id = false ) {
         if ( !$user_id ) {
-            if ( isset( $_GET['user_id'] ) ) {
-                $user_id = $_GET['user_id'];
+            if ( isset( $_REQUEST['user_id'] ) ) {
+                $user_id = $_REQUEST['user_id'];
             } else {
                 $current_user = wp_get_current_user();
                 $user_id = $current_user->ID;                
