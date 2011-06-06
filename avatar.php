@@ -5,7 +5,7 @@ Plugin URI: http://emusic.com
 Description: Like the movie, but actually good. Allows you to edit a user's Avatar in the Profile / Edit User page of the admin panel. Filter's get_avatar() to return your uploaded avatar instead of your Gravatar. This plugin borrows a lot of code from BuddyPress
 Author: wonderboymusic (after all of the BuddyPress contributors)
 Author URI: http://scotty-t.com
-Version: 0.1.2
+Version: 0.1.3
 */
 require( 'templatetags.php' );
 
