@@ -107,8 +107,6 @@ function avatar_profile_admin( $profileuser ) {
         <input type="hidden" id="w" name="w" />
         <input type="hidden" id="h" name="h" />
 
-        <?php wp_nonce_field( 'avatar_cropstore' ) ?>
-
     <?php else : ?>
         <div id="the-profile-image">        
         <?php echo $_avatar->fetch( array( 'item_id' => $profileuser->ID, 'type' => 'full' ) ) ?>
@@ -124,8 +122,6 @@ function avatar_profile_admin( $profileuser ) {
             <p><?php _e( "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button." ) ?></p>
             <p><a class="button edit" href="<?php avatar_delete_link( $profileuser->ID ) ?>" title="<?php _e( 'Delete Avatar' ) ?>"><?php _e( 'Delete My Avatar' ) ?></a></p>
         <?php endif; ?>
-
-        <?php wp_nonce_field( 'avatar_upload' ) ?>
 
     <?php endif; ?>        
     </td>

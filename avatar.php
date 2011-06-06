@@ -5,7 +5,7 @@ Plugin URI: http://emusic.com
 Description: Like the movie, but actually good. Allows you to edit a user's Avatar in the Profile / Edit User page of the admin panel. Filter's get_avatar() to return your uploaded avatar instead of your Gravatar. This plugin borrows a lot of code from BuddyPress
 Author: wonderboymusic (after all of the BuddyPress contributors)
 Author URI: http://scotty-t.com
-Version: 0.1.1
+Version: 0.1.2
 */
 require( 'templatetags.php' );
 
@@ -94,8 +94,6 @@ class Avatar {
         }
         
         if ( !empty( $_FILES ) ) {        
-            /* Check the nonce */
-            check_admin_referer( 'avatar_upload' );
             /* Pass the file to the avatar upload handler */
             if ( $this->handle_upload( $_FILES, array( $this, 'upload_dir' ) ) ) {
                 wp_redirect( add_query_arg( 'step', 'crop-image#go-to-avatar', admin_url( $this->get_redirect( $user_id ) ) ) );
@@ -108,8 +106,6 @@ class Avatar {
         /* If the image cropping is done, crop the image and save a full/thumb version */
         if ( isset( $_POST['avatar-crop-submit'] ) ) {
         	//print_r( $_POST ); die();
-            /* Check the nonce */
-            check_admin_referer( 'avatar_cropstore' );
 
             $data = array( 
                 'item_id'       => $user_id, 

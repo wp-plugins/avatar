@@ -3,7 +3,7 @@ Contributors: wonderboymusic, the BuddyPress community
 Tags: avatars, images, profile, upload, Gravatars, admin
 Requires at least: 2.8
 Tested up to: 3.2
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 
 Avatar allows you to create / edit custom avatars for your users right in the Admin Panel. Uses the same directory structure as BuddyPress,
 so your avatars will be sideways-compatible if you have BuddyPress installed. Most of the code in here is inspired-by or a 
