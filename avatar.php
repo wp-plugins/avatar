@@ -499,6 +499,10 @@ class Avatar {
     }    
     
     function fetch( $args = '' ) {
+        if ( !$this->loaded_defines ) {
+            $this->defines();
+            $this->loaded_defines = true;
+        }        
         // Set a few default variables
         $def_object		= 'user';
         $def_type		= 'thumb';

@@ -4,9 +4,11 @@ function comment_author_avatar() {
 	echo apply_filters( 'comment_author_avatar', $_avatar->fetch( array( 'item_id' => $comment->user_id, 'type' => 'thumb' ) ) );
 }
 
-function post_author_avatar() {
+function post_author_avatar( $args ) {
 	global $post, $_avatar;
-	echo apply_filters( 'post_author_avatar', $_avatar->fetch( array( 'item_id' => $post->post_author, 'type' => 'thumb' ) ) );
+    $defaults = array( 'item_id' => $post->post_author, 'type' => 'thumb' );
+    $params = wp_parse_args( $args, $defaults );
+	echo apply_filters( 'post_author_avatar', $_avatar->fetch( $params ) );
 }
 
 function loggedin_user_avatar( $args = '' ) {
